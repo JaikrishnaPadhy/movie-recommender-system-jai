@@ -31,7 +31,13 @@ def recommend(movie):
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+pickle_url = "https://drive.google.com/file/d/1Vit4Hpi1WU-ORgrxmG3QIO3Ws5CKp7kX/view?usp=sharing"
+a = requests.get(pickle_url)
+with open("model.pkl", "wb") as f:
+    f.write(a.content)
+
+with open ("model.pkl", "rb") as f:
+    similarity = pickle.load(f)
 
 
 st.title('Movie Recommender System')
