@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import gdown
 
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?language=en-US".format(movie_id)
@@ -31,13 +32,19 @@ def recommend(movie):
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 
-pickle_url = "https://drive.google.com/file/d/1Vit4Hpi1WU-ORgrxmG3QIO3Ws5CKp7kX/view?usp=sharing"
-a = requests.get(pickle_url)
-with open("model.pkl", "wb") as f:
-    f.write(a.content)
+file_id = '1Vit4Hpi1WU-ORgrxmG3QIO3Ws5CKp7kX'
+pickle_url = f'https://drive.google.com/uc?id={file_id}'
 
-with open ("model.pkl", "rb") as f:
-    similarity = pickle.load(f)
+gdown.download(pickle_url, 'similarity.pkl', quiet=False)
+
+similarity = pickle.load(open('similarity.pkl', 'rb'))
+
+# a = requests.get(pickle_url)
+# with open("similarity.pkl", "wb") as f:
+#     f.write(a.content)
+#
+# with open ("similarity.pkl", "rb") as f:
+#     similarity = pickle.load(f)
 
 
 st.title('Movie Recommender System')
